@@ -1,0 +1,27 @@
+% plot stress
+function pdeplotsavedata(savefield,model,fieldnum,field)
+if strcmp(field,'tyx')
+    pdeplot(model,'xydata',savefield(fieldnum),tyx)
+elseif strcmp(field,'tyz')
+    pdeplot(model,'xydata',savefield(fieldnum),tyx)
+end
+axis ij
+axis equal tight
+caxis([5 8.5])
+colormap(parula)
+% plot viscosity
+[etaeff,esyxv,esyzv]=stress2visco(stress,Fdisl,stressyx,stressyz);
+etaeff(etaeff==inf)=0;
+etaeff(etaeff==0)=max(etaeff);
+pdeplot(model,'xydata',log10(abs(etaeff)))
+caxis([20 25])
+colormap(flipud(jet))
+axis equal tight
+axis ij
+% 
+% figure
+% xplot=0:25:mod.X;
+% yplot=0:25:mod.Y;
+% stressxygrid10 = tri2grid(p1,t1,log10(abs(stressyx)),xplot,yplot);
+% % [~,hc]=contour(xplot,yplot,stressxygrid10,'Linecolor','k','LevelList',(6.5:0.1:8.5));
+% [~,hc]=contour(xplot,yplot,10.^stressxygrid10,'Linecolor','k','LevelList',(5e7:1e7:1e9));
